@@ -1,9 +1,13 @@
-from PIL import Image, ImageDraw, ImageFilter
+from operator import mod
+from tkinter import font
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
 import os
 import glob
+import os.path
+from io import BytesIO
+
 
 img = Image.new('RGBA', (256, 256))
-
 god_ui_background = "alentean_god_ui_background.png"
 card_background = "card_background.png"
 
@@ -18,6 +22,40 @@ def clear_directory(directory):
     files = glob.glob(directory+'/*')
     for f in files:
         os.remove(f)
+
+
+def create_workshop_image(mod_name):
+    #print("./Mods/"+mod_name+"/workshop-preview-icon.jpg")
+    text = mod_name
+    if os.path.exists("./Mods/"+mod_name+"/workshop-preview-icon.jpg") == False:
+        W, H = (512, 512)
+        img = Image.new('RGB', (512, 512), color="blue")
+        draw = ImageDraw.Draw(img)
+        w, h = draw.textsize(mod_name)
+
+        file = open("fonts/Silver.ttf", "rb")
+        bytes_font = BytesIO(file.read())
+        font = ImageFont.truetype(bytes_font, 64)
+
+        draw.text(((W-w)/2-(len(text)*6),(H-h)/2), text, fill="black", font=font)
+
+        
+        img.save("./Mods/"+mod_name+"/workshop-preview-icon.png")
+
+
+        W, H = (256, 256)
+        img = Image.new('RGB', (256, 256), color="blue")
+        draw = ImageDraw.Draw(img)
+        w, h = draw.textsize(mod_name)
+
+        file = open("fonts/Silver.ttf", "rb")
+        bytes_font = BytesIO(file.read())
+        font = ImageFont.truetype(bytes_font, 32)
+
+        draw.text(((W-w)/2-(len(text)*1.6),(H-h)/2), text, fill="black", font=font)
+
+        img.save("./Mods/"+mod_name+"/workshop-preview-icon256.png")
+
 
 
 def create_minor_god_portrait_tgas(directory, save_folder):
