@@ -16,8 +16,12 @@ def check_if_mod_exists(name):
     return False
 
 
+def delete_god_portrait(file_path):
+    if os.path.exists(file_path):
+        os.remove(file_path)
 
-def create_new_portrait_image(ui_type, god_name, user_image, image_x, image_y, image_width, image_height, current_mod_opened):
+
+def create_new_portrait_image(ui_type, god_name, user_image, image_x, image_y, image_width, image_height, current_mod_opened, current_civilization):
     print(int(image_x), int(image_y), int(image_width), int(image_height))
     if ui_type == "_ui_gods":
             card_size = int(image_width), int(image_height)
@@ -43,8 +47,21 @@ def create_new_portrait_image(ui_type, god_name, user_image, image_x, image_y, i
             return ("./Mods/"+current_mod_opened+"/textures/icons/god major "+god_name+" icons 64.tga")
 
 
+    if ui_type == "_minor_gods":
+            card_size = int(image_width), int(image_height)
+            img = Image.new('RGBA', (256, 256))
+            cb = Image.open("card_background.png")
+            ci = Image.open(user_image)
+            ci = ci.resize(card_size)
+            img.paste(ci, (int(image_x), int(image_y)))
+            img.paste(cb, (0, 0), cb)   
+            img.save("./Mods/"+current_mod_opened+"/textures/god minor portrait "+current_civilization.lower()+" "+god_name+".tga")
+            return ("./Mods/"+current_mod_opened+"/textures/god minor portrait "+current_civilization.lower()+" "+god_name+".tga")
+
+
+
 #"./Mods/atlantean_portraits_replacer/textures\ui\ui god gaia 256x256.tga"
-def get_god_portrait_as_png(current_mod_opened, god_name, god_type):
+def get_god_portrait_as_png(current_mod_opened, god_name, god_type, current_civilization):
     #print("./Mods/"+current_mod_opened+"/textures/"+"ui/"+"ui god "+god_name +" 256x256.tga")
     if (god_type == "_ui_gods"):
         if os.path.exists(("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")) == True:
@@ -59,10 +76,10 @@ def get_god_portrait_as_png(current_mod_opened, god_name, god_type):
             return "blank_icon.png"
     
     if (god_type == "_minor_gods"):
-        if os.path.exists(("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")) == True:
-            return("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")
+        if os.path.exists(("./Mods/"+current_mod_opened+"/textures/god minor portrait "+current_civilization.lower()+" "+god_name+".tga")) == True:
+            return("./Mods/"+current_mod_opened+"/textures/god minor portrait "+current_civilization.lower()+" "+god_name+".tga")
         else:
-            return "alentean_god_ui_background.png"
+            return "card_background.png"
 
 
 def create_new_mod_folder(name):

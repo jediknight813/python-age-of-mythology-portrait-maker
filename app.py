@@ -1,13 +1,16 @@
 from email.policy import default
 from multiprocessing import Value
 from optparse import Values
+import shutil
 from tkinter import HORIZONTAL
 import PySimpleGUI as sg
-from mod_manager import create_new_mod_folder, check_if_mod_exists, get_all_current_mods, delete_mod, get_read_publishinfo_file_description, update_publishinfo_file_description, get_god_portrait_as_png, create_new_portrait_image
+from mod_manager import create_new_mod_folder, check_if_mod_exists, get_all_current_mods, delete_mod, get_read_publishinfo_file_description, update_publishinfo_file_description, get_god_portrait_as_png, create_new_portrait_image, delete_god_portrait
 import re
 from PIL import Image
 import json
 from index import convert_to_bytes
+from pathlib import Path  
+import os
 
 
 app_title = "Age of Mythology: Extended Edition Portrait Maker"
@@ -44,6 +47,24 @@ def return_json_file_data(file_path):
     data = json.load(f)
     return data
 
+def is_valid_path(filepath):
+    if filepath and Path(filepath).exists():
+        if check_if_mod_exists(current_mod_opened, filepath) == False:
+            return True
+        else:
+            delete_mod((filepath+"/"+current_mod_opened))
+            return True
+    else:
+        sg.popup_error("Filepath not correct.")
+        return False
+
+
+def check_if_mod_exists(name, filepath):
+    for folder_name in os.listdir(filepath):
+        if folder_name == name:
+            print(folder_name)
+            return True
+    return False
 
 workshop_image_layout = [
 
@@ -91,11 +112,13 @@ def edit_current_civilization_portaits():
     civilization_data = return_json_file_data("./data/CivilizationData.json")["Civilizations"][current_civilization]
     edit_god_portait_layout = [
 
-        [sg.Text(current_civilization, font=("Verdana",25))],
-        [sg.Text("Ui Gods", font=("Verdana",20), pad=(20, 20))],
-        [sg.Column([ [sg.Image(data=convert_to_bytes(get_god_portrait_as_png(current_mod_opened, text, "_ui_gods"), (110, 110)))], [sg.Text(text, font=("Verdana",12))], [sg.Button("Edit", key=text+"_ui_gods", font=("Verdana",12)), sg.Button("Reset",  key="reset_"+text+"_ui_gods", font=("Verdana",12))] ], element_justification="C", pad=(5,5)) for text in civilization_data["ui_gods"]],
-        [sg.Text("Major Gods", font=("Verdana",20), pad=(20, 20))],
-        [sg.Column([ [sg.Image(data=convert_to_bytes(get_god_portrait_as_png(current_mod_opened, text, "_major_gods"), (64, 64)))], [sg.Text(text, font=("Verdana",12))], [sg.Button("Edit", key=text+"_major_gods", font=("Verdana",10)), sg.Button("Reset",  key="reset_"+text+"_major_gods", font=("Verdana",10))] ], element_justification="C", pad=(1,1)) for text in civilization_data["major_gods"]],
+        [sg.Text(current_civilization, font=("Verdana",20))],
+        [sg.Text("Ui Gods", font=("Verdana",18), pad=(10, 10))],
+        [sg.Column([ [sg.Image(data=convert_to_bytes(get_god_portrait_as_png(current_mod_opened, text, "_ui_gods", current_civilization), (110, 110)))], [sg.Text(text, font=("Verdana",12))], [sg.Button("Edit", key=text+"_ui_gods", font=("Verdana",12)), sg.Button("Reset",  key="reset_"+text+"_ui_gods", font=("Verdana",12))] ], element_justification="C", pad=(5,5)) for text in civilization_data["ui_gods"]],
+        [sg.Text("Major Gods", font=("Verdana",18), pad=(10, 10))],
+        [sg.Column([ [sg.Image(data=convert_to_bytes(get_god_portrait_as_png(current_mod_opened, text, "_major_gods", current_civilization), (64, 64)))], [sg.Text(text, font=("Verdana",12))], [sg.Button("Edit", key=text+"_major_gods", font=("Verdana",10)), sg.Button("Reset",  key="reset_"+text+"_major_gods", font=("Verdana",10))] ], element_justification="C", pad=(1,1)) for text in civilization_data["major_gods"]],
+        [sg.Text("Minor Gods", font=("Verdana",18), pad=(10, 10))],
+        [sg.Column([ [sg.Image(data=convert_to_bytes(get_god_portrait_as_png(current_mod_opened, text, "_minor_gods", current_civilization), (90, 90)))], [sg.Text(text, font=("Verdana",12))], [sg.Button("Edit", key=text+"_minor_gods", font=("Verdana",10)), sg.Button("Reset",  key="reset_"+text+"_minor_gods", font=("Verdana",10))] ], element_justification="C", pad=(1,1)) for text in civilization_data["minor_gods"]],
         [sg.Button("Finished", pad=(20, 20), font=("Verdana", 15), key="Finished_with_civilization_layout")]
         ]   
     window1 = sg.Window(app_title, location=window.Location, element_justification="C").Layout(edit_god_portait_layout)
@@ -106,7 +129,7 @@ def edit_god_image_layout():
     make_custom_god_portrait_layout = [
 
         [sg.Text(current_god_being_editied, font=("Verdana",30))],
-        [sg.Image(data=convert_to_bytes(get_god_portrait_as_png(current_mod_opened, current_god_being_editied, current_ui_frame), (256, 256)), key="currently_editing_god_image")],
+        [sg.Image(data=convert_to_bytes(get_god_portrait_as_png(current_mod_opened, current_god_being_editied, current_ui_frame, current_civilization), (256, 256)), key="currently_editing_god_image")],
         [sg.Text("Import New Image:"), sg.FileBrowse(file_types=file_types, key="portrait_image_file")],
         [sg.Text("image x coordinates"), sg.Slider(range=(-500, 500), default_value=image_x, size=(35, 10), orientation=HORIZONTAL, key="image_x_cord")],
         [sg.Text("image y coordinates"), sg.Slider(range=(-500, 500), default_value=image_y, size=(35, 10), orientation=HORIZONTAL, key="image_y_cord")],
@@ -129,6 +152,7 @@ def refresh_open_faction_picker_layout():
         [sg.FileBrowse(file_types=file_types, key="workshop_image_file"), sg.Button("update image")] ])],
         [sg.Text("Edit Civilization Portraits", font=("Times New Roman",20))],
         [sg.Button("Greeks", pad=(10, 10)), sg.Button("Egyptians", pad=(10, 10)), sg.Button("Norse", pad=(10, 10)), sg.Button("Atlanteans", pad=(10, 10)), sg.Button("Chinese", pad=(10, 10))],
+        [sg.Text("Mod Export Folder: "), sg.Input(key="mod_export_path"), sg.FolderBrowse()],
         [sg.Button("Export Mod", pad=(20, 20), font=("Verdana",12))]
         ]
     window1 = sg.Window(app_title, location=window.Location, element_justification="C").Layout(layout_two)
@@ -140,16 +164,21 @@ while True:
 
     print(event)
 
+
+    if event == "Export Mod" and is_valid_path(values["mod_export_path"]) != False:
+        print(values["mod_export_path"])
+        shutil.copytree(("./Mods/"+current_mod_opened), (values["mod_export_path"]+"/"+current_mod_opened))
+        sg.popup("Mod Exported!")
+
+
     if event == "change_character_image" and values["portrait_image_file"] != "":
-        #default slider settings for ui
-        #print(values["image_x_cord"],values["image_y_cord"],values["image_height"],values["image_width"])
-        new_image_path = create_new_portrait_image(current_ui_frame, current_god_being_editied, values["portrait_image_file"], values["image_x_cord"],values["image_y_cord"],values["image_width"],values["image_height"], current_mod_opened)
+        new_image_path = create_new_portrait_image(current_ui_frame, current_god_being_editied, values["portrait_image_file"], values["image_x_cord"],values["image_y_cord"],values["image_width"],values["image_height"], current_mod_opened, current_civilization)
         image_data = convert_to_bytes(new_image_path)
         window['currently_editing_god_image'].update(data=image_data)
 
 
     if "ui_gods" in event:
-        if "reset" not in event and "ui_gods" in event:
+        if "reset" not in event:
             god = event.replace("_ui_gods", "")
             ui_type = event.replace(god, "")
             current_god_being_editied = god 
@@ -163,17 +192,36 @@ while True:
             window = edit_god_image_layout()
     
 
+    if "ui_gods" in event:
+         if "reset" in event:
+            print(event)
+            pass
+
+
     if "major_gods" in event:
-        if "reset" not in event and "major_gods" in event:
+        if "reset" not in event:
             god = event.replace("_major_gods", "")
             ui_type = event.replace(god, "")
-            print(ui_type)
             current_god_being_editied = god 
             current_ui_frame = ui_type
             image_x = 0
             image_y = 0
             image_width = 64
             image_height = 64
+            window.close()
+            window = edit_god_image_layout()
+
+
+    if "minor_gods" in event:
+        if "reset" not in event:
+            god = event.replace("_minor_gods", "")
+            ui_type = event.replace(god, "")
+            current_god_being_editied = god 
+            current_ui_frame = ui_type
+            image_x = 0
+            image_y = 26
+            image_width = 180
+            image_height = 240
             window.close()
             window = edit_god_image_layout()
 
