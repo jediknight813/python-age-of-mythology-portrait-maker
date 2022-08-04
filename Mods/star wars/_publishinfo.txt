@@ -1,0 +1,2 @@
+Visibility=Public
+Description=this is a star wars mod.

@@ -1,6 +1,3 @@
-from email.policy import default
-from multiprocessing import Value
-from optparse import Values
 import shutil
 from tkinter import HORIZONTAL
 import PySimpleGUI as sg
@@ -131,10 +128,10 @@ def edit_god_image_layout():
         [sg.Text(current_god_being_editied, font=("Verdana",30))],
         [sg.Image(data=convert_to_bytes(get_god_portrait_as_png(current_mod_opened, current_god_being_editied, current_ui_frame, current_civilization), (256, 256)), key="currently_editing_god_image")],
         [sg.Text("Import New Image:"), sg.FileBrowse(file_types=file_types, key="portrait_image_file")],
-        [sg.Text("image x coordinates"), sg.Slider(range=(-500, 500), default_value=image_x, size=(35, 10), orientation=HORIZONTAL, key="image_x_cord")],
-        [sg.Text("image y coordinates"), sg.Slider(range=(-500, 500), default_value=image_y, size=(35, 10), orientation=HORIZONTAL, key="image_y_cord")],
-        [sg.Text("image width"), sg.Slider(range=(10, 400), default_value=image_width, size=(35, 10), orientation=HORIZONTAL, key="image_width")],
-        [sg.Text("image height"), sg.Slider(range=(10, 400), default_value=image_height, size=(35, 10), orientation=HORIZONTAL, key="image_height")],
+        [sg.Text("image x coordinates"), sg.Slider(range=(-500, 500), default_value=image_x, size=(45, 10), orientation=HORIZONTAL, key="image_x_cord")],
+        [sg.Text("image y coordinates"), sg.Slider(range=(-500, 500), default_value=image_y, size=(45, 10), orientation=HORIZONTAL, key="image_y_cord")],
+        [sg.Text("image width"), sg.Slider(range=(10, 400), default_value=image_width, size=(45, 10), orientation=HORIZONTAL, key="image_width")],
+        [sg.Text("image height"), sg.Slider(range=(10, 400), default_value=image_height, size=(45, 10), orientation=HORIZONTAL, key="image_height")],
         [sg.Button("Update Image", key="change_character_image")],
         [sg.Button("Finished", key="close_edit_god_image_layout")]
 

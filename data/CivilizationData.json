@@ -6,24 +6,24 @@
             "minor_gods": ["atlas", "hekate", "helios", "hyperion", "leto", "okeanus", "prometheus", "rheia", "theia"]
         },
         "Greeks": {
-            "ui_gods": [],
-            "major_gods": [],
-            "minor_gods": []
+            "ui_gods": ["zeus", "hades", "Poseidon"],
+            "major_gods": ["zeus", "hades", "Poseidon", "athena", "hermes", "ares", "apollo", "dionysus", "aphrodite", "hera", "hephaestus", "artemis"],
+            "minor_gods": ["athena", "hermes", "ares", "apollo", "dionysus", "aphrodite", "hera", "hephaestus", "artemis"]
         },
         "Egyptians": {
-            "ui_gods": [],
-            "major_gods": [],
-            "minor_gods": []
+            "ui_gods": ["ra", "isis", "set"],
+            "major_gods": ["ra", "isis", "set", "bast", "ptah", "anubis", "hathor", "sekhmet", "nephthys", "osiris", "horus", "thoth"],
+            "minor_gods": ["bast", "ptah", "anubis", "hathor", "sekhmet", "nephthys", "osiris", "horus", "thoth"]
         },
         "Norse": {
-            "ui_gods": [],
-            "major_gods": [],
-            "minor_gods": []
+            "ui_gods": ["thor", "odin", "loki"],
+            "major_gods": ["thor", "odin", "loki", "freyja", "forseti", "heimdall", "skadi", "bragi", "njord", "baldr", "tyr", "hel"],
+            "minor_gods": ["freyja", "forseti", "heimdall", "skadi", "bragi", "njord", "baldr", "tyr", "hel"]
         },
         "Chinese": {
-            "ui_gods": [],
-            "major_gods": [],
-            "minor_gods": []
+            "ui_gods": ["fuxi", "nuwa", "shennong"],
+            "major_gods": ["fuxi", "nuwa", "shennong"],
+            "minor_gods": ["huangdi", "sunwukong", "change", "dabogong", "zhongkui", "hebo", "chongli", "aokuang", "xiwangmu"]
         }
     }
 }
