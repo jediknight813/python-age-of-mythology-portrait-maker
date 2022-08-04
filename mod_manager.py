@@ -1,7 +1,12 @@
+from ast import Str
 import os
+from re import T
 import shutil
 from index import create_workshop_image
 parent_dir = "./Mods/"
+from PIL import Image
+import tempfile
+import time
 
 
 def check_if_mod_exists(name):
@@ -11,13 +16,51 @@ def check_if_mod_exists(name):
     return False
 
 
+
+def create_new_portrait_image(ui_type, god_name, user_image, image_x, image_y, image_width, image_height, current_mod_opened):
+    print(int(image_x), int(image_y), int(image_width), int(image_height))
+    if ui_type == "_ui_gods":
+            card_size = int(image_width), int(image_height)
+            img = Image.new('RGBA', (256, 256))
+            cb = Image.open("alentean_god_ui_background.png")
+            ci = Image.open(user_image)
+            ci = ci.resize(card_size)
+            img.paste(ci, (int(image_x), int(image_y)))
+            img.paste(cb, (0, 0), cb)   
+            img.save("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")
+            return ("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")
+
+
+
+#"./Mods/atlantean_portraits_replacer/textures\ui\ui god gaia 256x256.tga"
+def get_god_portrait_as_png(current_mod_opened, god_name, god_type):
+    #print("./Mods/"+current_mod_opened+"/textures/"+"ui/"+"ui god "+god_name +" 256x256.tga")
+    if (god_type == "ui_gods"):
+        if os.path.exists(("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")) == True:
+            return("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")
+        else:
+            return "alentean_god_ui_background.png"
+    
+    if (god_type == "major_gods"):
+        if os.path.exists(("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")) == True:
+            return("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")
+        else:
+            return "alentean_god_ui_background.png"
+    
+    if (god_type == "minor_gods"):
+        if os.path.exists(("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")) == True:
+            return("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")
+        else:
+            return "alentean_god_ui_background.png"
+
+
 def create_new_mod_folder(name):
     if check_if_mod_exists(name) == False and name != "":
         #create parent mod folder
         path = os.path.join(parent_dir, name) 
         os.mkdir(path) 
         create_read_publishinfo_file(name)
-        print(parent_dir, name + "textures")
+        #print(parent_dir, name + "textures")
         #create texture folder
 
         path = os.path.join(parent_dir, name + "/textures") 
@@ -42,7 +85,7 @@ def delete_mod(path):
 def get_all_current_mods():
     mods = []
     for folder_name in os.listdir("./Mods/"):
-        print(folder_name)
+        #print(folder_name)
         mods.append({"name": folder_name, "path": ('./Mods/'+folder_name)})
     return mods
 
@@ -59,7 +102,7 @@ def get_read_publishinfo_file_description(mod_name):
     if check_if_mod_exists(mod_name) == True: 
         f = open(('./Mods/'+mod_name+"/_publishinfo.txt"),"r")
         content = f.read()
-        print(content.replace("Visibility=Public", "").replace("Description=", ""))
+        #print(content.replace("Visibility=Public", "").replace("Description=", ""))
         return content.replace("Visibility=Public", "").replace("Description=", "")
 
 
