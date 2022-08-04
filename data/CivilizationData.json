@@ -1,0 +1,29 @@
+{
+    "Civilizations": {
+        "Atlanteans": {
+            "ui_gods": ["gaia", "kronos", "oranos"],
+            "major_gods": ["atlas", "hekate", "helios", "hyperion", "leto", "okeanus", "prometheus", "rheia", "theia", "gaia", "kronos", "oranos"],
+            "minor_gods": ["atlas", "hekate", "helios", "hyperion", "leto", "okeanus", "prometheus", "rheia", "theia"]
+        },
+        "Greeks": {
+            "ui_gods": [],
+            "major_gods": [],
+            "minor_gods": []
+        },
+        "Egyptians": {
+            "ui_gods": [],
+            "major_gods": [],
+            "minor_gods": []
+        },
+        "Norse": {
+            "ui_gods": [],
+            "major_gods": [],
+            "minor_gods": []
+        },
+        "Chinese": {
+            "ui_gods": [],
+            "major_gods": [],
+            "minor_gods": []
+        }
+    }
+}

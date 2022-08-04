@@ -1,7 +1,9 @@
+from multiprocessing import Value
 import PySimpleGUI as sg
 from mod_manager import create_new_mod_folder, check_if_mod_exists, get_all_current_mods, delete_mod, get_read_publishinfo_file_description, update_publishinfo_file_description
 import re
 from PIL import Image
+import json
 
 
 app_title = "Age of Mythology: Extended Edition Portrait Maker"
@@ -9,6 +11,7 @@ sg.theme('DarkAmber')
 a=get_all_current_mods()
 pattern = r'[0-9]'
 current_mod_opened = ""
+current_civilization = ""
 file_types = [("JPEG (*.jpg)", "*.jpg"),
               ("PNG (*.png)", "*.png")]
 
@@ -21,6 +24,11 @@ layout = [
 
         ]
 
+
+def return_json_file_data(file_path):
+    f = open(file_path)
+    data = json.load(f)
+    return data
 
 
 workshop_image_layout = [
@@ -41,6 +49,11 @@ layout_two = [
 
             ]
 
+edit_god_portait_layout = [
+
+
+]
+
 
 
 window_layout = [[sg.Column(layout, visible=True, key='file_manager'), sg.Column(layout_two, visible=False, key='faction_picker')]]
@@ -57,6 +70,24 @@ def refresh_mod_window():
 
         ]   
     window1 = sg.Window(app_title, location=window.Location).Layout(layout)
+    return window1
+
+
+def edit_current_civilization_portaits():
+    civilization_data = return_json_file_data("./data/CivilizationData.json")["Civilizations"][current_civilization]
+    print(a)
+    edit_god_portait_layout = [
+
+        [sg.Text(current_civilization, font=("Verdana",25))],
+        [sg.Text("Ui Gods", font=("Verdana",20), pad=(20, 20))],
+[ sg.Column([ [sg.Text(text, font=("Verdana",12))], [sg.Button("Edit", key=text+"_ui_gods", font=("Verdana",12))] ], element_justification="C", pad=(5,5)) for text in civilization_data["ui_gods"]],
+        [sg.Text("Major Gods", font=("Verdana",20), pad=(20, 20))],
+        [ sg.Column([ [sg.Text(text, font=("Verdana",12))], [sg.Button("Edit", key=text+"_major_gods", font=("Verdana",12))] ], element_justification="C", pad=(5,5)) for text in civilization_data["major_gods"]],
+        [sg.Text("Minor Gods", font=("Verdana",20), pad=(20, 20))],
+        [ sg.Column([ [sg.Text(text, font=("Verdana",12))], [sg.Button("Edit", key=text+"_minor_gods", font=("Verdana",12))] ], element_justification="C", pad=(5,5)) for text in civilization_data["minor_gods"]],
+        [sg.Button("Finished", pad=(20, 20), font=("Verdana", 15), key="Finished_with_civilization_layout")]
+        ]   
+    window1 = sg.Window(app_title, location=window.Location, element_justification="C").Layout(edit_god_portait_layout)
     return window1
 
 
@@ -79,6 +110,12 @@ while True:
 
     print(event)
 
+    if event in return_json_file_data("./data/CivilizationData.json")["Civilizations"].keys():
+        current_civilization = event
+        window.Close()
+        window = edit_current_civilization_portaits()
+
+
     if event == "update image":
         if values["workshop_image_file"] != "":
             image = Image.open(values["workshop_image_file"])
@@ -96,8 +133,14 @@ while True:
     if event == "save_mod_description":
         update_publishinfo_file_description(current_mod_opened, values["mod_description"])
 
+
     if event == sg.WINDOW_CLOSED or event == 'Quit':
         break
+
+
+    if event == "Finished_with_civilization_layout":
+        window.close()
+        window = refresh_open_faction_picker_layout()
 
 
     if event == "update_file_manager":
