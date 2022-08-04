@@ -194,8 +194,11 @@ while True:
 
     if "ui_gods" in event:
          if "reset" in event:
-            print(event)
-            pass
+            god = event.replace("_ui_gods", "").replace("reset_", "")
+            delete_god_portrait(("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god+" 256x256.tga"))
+            window.Close()
+            window = edit_current_civilization_portaits()
+
 
 
     if "major_gods" in event:
