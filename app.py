@@ -93,8 +93,9 @@ def edit_current_civilization_portaits():
 
         [sg.Text(current_civilization, font=("Verdana",25))],
         [sg.Text("Ui Gods", font=("Verdana",20), pad=(20, 20))],
-        [sg.Column([ [sg.Image(data=convert_to_bytes(get_god_portrait_as_png(current_mod_opened, text, "ui_gods"), (110, 110)))], [sg.Text(text, font=("Verdana",12))], [sg.Button("Edit", key=text+"_ui_gods", font=("Verdana",12)), sg.Button("Reset",  key="reset_"+text+"_ui_gods", font=("Verdana",12))] ], element_justification="C", pad=(5,5)) for text in civilization_data["ui_gods"]],
-        [sg.Column([ [sg.Image(data=convert_to_bytes(get_god_portrait_as_png(current_mod_opened, text, "major_gods"), (110, 110)))], [sg.Text(text, font=("Verdana",12))], [sg.Button("Edit", key=text+"_major_gods", font=("Verdana",12)), sg.Button("Reset",  key="reset_"+text+"_major_gods", font=("Verdana",12))] ], element_justification="C", pad=(5,5)) for text in civilization_data["major_gods"]],
+        [sg.Column([ [sg.Image(data=convert_to_bytes(get_god_portrait_as_png(current_mod_opened, text, "_ui_gods"), (110, 110)))], [sg.Text(text, font=("Verdana",12))], [sg.Button("Edit", key=text+"_ui_gods", font=("Verdana",12)), sg.Button("Reset",  key="reset_"+text+"_ui_gods", font=("Verdana",12))] ], element_justification="C", pad=(5,5)) for text in civilization_data["ui_gods"]],
+        [sg.Text("Major Gods", font=("Verdana",20), pad=(20, 20))],
+        [sg.Column([ [sg.Image(data=convert_to_bytes(get_god_portrait_as_png(current_mod_opened, text, "_major_gods"), (64, 64)))], [sg.Text(text, font=("Verdana",12))], [sg.Button("Edit", key=text+"_major_gods", font=("Verdana",10)), sg.Button("Reset",  key="reset_"+text+"_major_gods", font=("Verdana",10))] ], element_justification="C", pad=(1,1)) for text in civilization_data["major_gods"]],
         [sg.Button("Finished", pad=(20, 20), font=("Verdana", 15), key="Finished_with_civilization_layout")]
         ]   
     window1 = sg.Window(app_title, location=window.Location, element_justification="C").Layout(edit_god_portait_layout)
@@ -105,7 +106,7 @@ def edit_god_image_layout():
     make_custom_god_portrait_layout = [
 
         [sg.Text(current_god_being_editied, font=("Verdana",30))],
-        [sg.Image(data=convert_to_bytes(get_god_portrait_as_png(current_mod_opened, current_god_being_editied, "ui_gods"), (256, 256)), key="currently_editing_god_image")],
+        [sg.Image(data=convert_to_bytes(get_god_portrait_as_png(current_mod_opened, current_god_being_editied, current_ui_frame), (256, 256)), key="currently_editing_god_image")],
         [sg.Text("Import New Image:"), sg.FileBrowse(file_types=file_types, key="portrait_image_file")],
         [sg.Text("image x coordinates"), sg.Slider(range=(-500, 500), default_value=image_x, size=(35, 10), orientation=HORIZONTAL, key="image_x_cord")],
         [sg.Text("image y coordinates"), sg.Slider(range=(-500, 500), default_value=image_y, size=(35, 10), orientation=HORIZONTAL, key="image_y_cord")],
@@ -151,16 +152,30 @@ while True:
         if "reset" not in event and "ui_gods" in event:
             god = event.replace("_ui_gods", "")
             ui_type = event.replace(god, "")
-            #print(god, ui_type)
             current_god_being_editied = god 
             current_ui_frame = ui_type
+            print("look here:"+current_ui_frame)
             image_x = 46
             image_y = 50
             image_width = 160
             image_height = 158
             window.close()
             window = edit_god_image_layout()
+    
 
+    if "major_gods" in event:
+        if "reset" not in event and "major_gods" in event:
+            god = event.replace("_major_gods", "")
+            ui_type = event.replace(god, "")
+            print(ui_type)
+            current_god_being_editied = god 
+            current_ui_frame = ui_type
+            image_x = 0
+            image_y = 0
+            image_width = 64
+            image_height = 64
+            window.close()
+            window = edit_god_image_layout()
 
 
     if event in return_json_file_data("./data/CivilizationData.json")["Civilizations"].keys():

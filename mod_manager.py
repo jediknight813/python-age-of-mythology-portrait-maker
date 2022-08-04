@@ -31,23 +31,34 @@ def create_new_portrait_image(ui_type, god_name, user_image, image_x, image_y, i
             return ("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")
 
 
+    if ui_type == "_major_gods":
+            card_size = int(image_width), int(image_height)
+            img = Image.new('RGBA', (64, 64))
+            cb = Image.open("blank_icon.png")
+            ci = Image.open(user_image)
+            ci = ci.resize(card_size)
+            img.paste(ci, (int(image_x), int(image_y)))
+            img.paste(cb, (0, 0), cb)  
+            img.save("./Mods/"+current_mod_opened+"/textures/icons/god major "+god_name+" icons 64.tga")
+            return ("./Mods/"+current_mod_opened+"/textures/icons/god major "+god_name+" icons 64.tga")
+
 
 #"./Mods/atlantean_portraits_replacer/textures\ui\ui god gaia 256x256.tga"
 def get_god_portrait_as_png(current_mod_opened, god_name, god_type):
     #print("./Mods/"+current_mod_opened+"/textures/"+"ui/"+"ui god "+god_name +" 256x256.tga")
-    if (god_type == "ui_gods"):
+    if (god_type == "_ui_gods"):
         if os.path.exists(("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")) == True:
             return("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")
         else:
             return "alentean_god_ui_background.png"
     
-    if (god_type == "major_gods"):
-        if os.path.exists(("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")) == True:
-            return("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")
+    if (god_type == "_major_gods"):
+        if os.path.exists(("./Mods/"+current_mod_opened+"/textures/icons/god major "+god_name+" icons 64.tga")) == True:
+            return("./Mods/"+current_mod_opened+"/textures/icons/god major "+god_name+" icons 64.tga")
         else:
-            return "alentean_god_ui_background.png"
+            return "blank_icon.png"
     
-    if (god_type == "minor_gods"):
+    if (god_type == "_minor_gods"):
         if os.path.exists(("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")) == True:
             return("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")
         else:
