@@ -29,9 +29,32 @@ def create_new_portrait_image(ui_type, god_name, user_image, image_x, image_y, i
             cb = Image.open("./GodPortraitFrames/"+"ui_god_"+current_civilization+".png")
             ci = Image.open(user_image)
             ci = ci.resize(card_size)
-            img.paste(ci, (int(image_x), int(image_y)))
+
+
+            mask = Image.open("./GodPortraitFrames/"+"ci_mask.tga").convert("RGBA")
+            character_image = Image.new('RGBA', (256, 256))
+            character_image.paste(ci, (int(image_x), int(image_y)))
+            character_image.paste(character_image, mask)
+            img.paste(character_image, (0, 0), mask)
             img.paste(cb, (0, 0), cb)   
+
+
             img.save("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")
+            
+
+            mi = Image.open("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")
+            mi = mi.resize((128, 128))
+            mi.save("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 128x128.tga")
+
+            si = Image.open("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")
+            si = si.resize((64, 64))
+            si.save("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 64x64.tga")
+
+
+            si = Image.open("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")
+            si = si.resize((32, 32))
+            si.save("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 32x32.tga")
+
             return ("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")
 
 
@@ -43,6 +66,7 @@ def create_new_portrait_image(ui_type, god_name, user_image, image_x, image_y, i
             ci = ci.resize(card_size)
             img.paste(ci, (int(image_x), int(image_y)))
             img.paste(cb, (0, 0), cb)  
+            img.save("./Mods/"+current_mod_opened+"/textures/icons/improvement "+god_name+" icon.tga")
             img.save("./Mods/"+current_mod_opened+"/textures/icons/god major "+god_name+" icons 64.tga")
             return ("./Mods/"+current_mod_opened+"/textures/icons/god major "+god_name+" icons 64.tga")
 
