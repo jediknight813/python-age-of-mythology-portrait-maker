@@ -195,6 +195,20 @@ while True:
             delete_god_portrait(("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god+" 256x256.tga"))
             window.Close()
             window = edit_current_civilization_portaits()
+    
+    if "major_gods" in event:
+         if "reset" in event:
+            god = event.replace("_major_gods", "").replace("reset_", "")
+            delete_god_portrait(("./Mods/"+current_mod_opened+"/textures/icons/god major "+god+" icons 64.tga"))
+            window.Close()
+            window = edit_current_civilization_portaits()
+
+    if "minor_gods" in event:
+         if "reset" in event:
+            god = event.replace("_minor_gods", "").replace("reset_", "")
+            delete_god_portrait(("./Mods/"+current_mod_opened+"/textures/god minor portrait "+current_civilization.lower()+" "+god+".tga"))
+            window.Close()
+            window = edit_current_civilization_portaits()
 
 
 
@@ -219,9 +233,9 @@ while True:
             current_god_being_editied = god 
             current_ui_frame = ui_type
             image_x = 0
-            image_y = 26
+            image_y = 0
             image_width = 180
-            image_height = 240
+            image_height = 256
             window.close()
             window = edit_god_image_layout()
 
@@ -244,12 +258,8 @@ while True:
             workshop_image_size = 512, 512
             image = image.resize(workshop_image_size)
             image.save("./Mods/"+current_mod_opened+"/workshop-preview-icon.jpg")
-
-            #workshop_image_size = 256, 256
-            #image = image.resize(workshop_image_size)
-            #image.save("./Mods/"+current_mod_opened+"/workshop-preview-icon256.png")
-            #window.close()
-            #window = refresh_open_faction_picker_layout()
+            window.close()
+            window = refresh_open_faction_picker_layout()
 
 
     if event == "save_mod_description":

@@ -26,7 +26,7 @@ def create_new_portrait_image(ui_type, god_name, user_image, image_x, image_y, i
     if ui_type == "_ui_gods":
             card_size = int(image_width), int(image_height)
             img = Image.new('RGBA', (256, 256))
-            cb = Image.open("alentean_god_ui_background.png")
+            cb = Image.open("./GodPortraitFrames/"+"ui_god_"+current_civilization+".png")
             ci = Image.open(user_image)
             ci = ci.resize(card_size)
             img.paste(ci, (int(image_x), int(image_y)))
@@ -50,7 +50,7 @@ def create_new_portrait_image(ui_type, god_name, user_image, image_x, image_y, i
     if ui_type == "_minor_gods":
             card_size = int(image_width), int(image_height)
             img = Image.new('RGBA', (256, 256))
-            cb = Image.open("card_background.png")
+            cb = Image.open("./GodPortraitFrames/"+current_civilization+"_card_background.png")
             ci = Image.open(user_image)
             ci = ci.resize(card_size)
             img.paste(ci, (int(image_x), int(image_y)))
@@ -67,7 +67,7 @@ def get_god_portrait_as_png(current_mod_opened, god_name, god_type, current_civi
         if os.path.exists(("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")) == True:
             return("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")
         else:
-            return "alentean_god_ui_background.png"
+            return ("./GodPortraitFrames/"+"ui_god_"+current_civilization+".png")
     
     if (god_type == "_major_gods"):
         if os.path.exists(("./Mods/"+current_mod_opened+"/textures/icons/god major "+god_name+" icons 64.tga")) == True:
@@ -79,7 +79,7 @@ def get_god_portrait_as_png(current_mod_opened, god_name, god_type, current_civi
         if os.path.exists(("./Mods/"+current_mod_opened+"/textures/god minor portrait "+current_civilization.lower()+" "+god_name+".tga")) == True:
             return("./Mods/"+current_mod_opened+"/textures/god minor portrait "+current_civilization.lower()+" "+god_name+".tga")
         else:
-            return "card_background.png"
+            return ("./GodPortraitFrames/"+current_civilization+"_card_background.png")
 
 
 def create_new_mod_folder(name):

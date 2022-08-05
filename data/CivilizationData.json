@@ -22,7 +22,7 @@
         },
         "Chinese": {
             "ui_gods": ["fuxi", "nuwa", "shennong"],
-            "major_gods": ["fuxi", "nuwa", "shennong"],
+            "major_gods": ["fuxi", "nuwa", "shennong", "huangdi", "sunwukong", "change", "dabogong", "zhongkui", "hebo", "chongli", "aokuang", "xiwangmu"],
             "minor_gods": ["huangdi", "sunwukong", "change", "dabogong", "zhongkui", "hebo", "chongli", "aokuang", "xiwangmu"]
         }
     }
