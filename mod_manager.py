@@ -11,7 +11,7 @@ import time
 
 def check_if_mod_exists(name):
     for folder_name in os.listdir("./Mods/"):
-        if folder_name == name:
+        if folder_name.lower() == name.lower():
             return True
     return False
 
@@ -49,7 +49,6 @@ def create_new_portrait_image(ui_type, god_name, user_image, image_x, image_y, i
             si = Image.open("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")
             si = si.resize((64, 64))
             si.save("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 64x64.tga")
-
 
             si = Image.open("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god_name+" 256x256.tga")
             si = si.resize((32, 32))

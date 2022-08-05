@@ -1,5 +1,6 @@
 import shutil
-from tkinter import HORIZONTAL
+from tkinter import CENTER, HORIZONTAL
+from types import NoneType
 import PySimpleGUI as sg
 from mod_manager import create_new_mod_folder, check_if_mod_exists, get_all_current_mods, delete_mod, get_read_publishinfo_file_description, update_publishinfo_file_description, get_god_portrait_as_png, create_new_portrait_image, delete_god_portrait
 import re
@@ -58,8 +59,8 @@ def is_valid_path(filepath):
 
 def check_if_mod_exists(name, filepath):
     for folder_name in os.listdir(filepath):
-        if folder_name == name:
-            print(folder_name)
+        if folder_name.lower() == name.lower():
+            #print(folder_name)
             return True
     return False
 
@@ -118,7 +119,12 @@ def edit_current_civilization_portaits():
         [sg.Column([ [sg.Image(data=convert_to_bytes(get_god_portrait_as_png(current_mod_opened, text, "_minor_gods", current_civilization), (90, 90)))], [sg.Text(text, font=("Verdana",12))], [sg.Button("Edit", key=text+"_minor_gods", font=("Verdana",10)), sg.Button("Reset",  key="reset_"+text+"_minor_gods", font=("Verdana",10))] ], element_justification="C", pad=(1,1)) for text in civilization_data["minor_gods"]],
         [sg.Button("Finished", pad=(20, 20), font=("Verdana", 15), key="Finished_with_civilization_layout")]
         ]   
-    window1 = sg.Window(app_title, location=window.Location, element_justification="C").Layout(edit_god_portait_layout)
+
+    colum_layout = [
+        [sg.Column(edit_god_portait_layout, scrollable=True, element_justification="C", size=(1300, 750), expand_y=True, expand_x=True, justification=CENTER, grab=True)]
+    ]
+
+    window1 = sg.Window(app_title, location=window.Location, element_justification="C", resizable=True).Layout(colum_layout)
     return window1
 
 
@@ -159,11 +165,11 @@ def refresh_open_faction_picker_layout():
 while True:
     event, values = window.read()
 
-    print(event)
+    #print(event)
 
 
     if event == "Export Mod" and is_valid_path(values["mod_export_path"]) != False:
-        print(values["mod_export_path"])
+        #print(values["mod_export_path"])
         shutil.copytree(("./Mods/"+current_mod_opened), (values["mod_export_path"]+"/"+current_mod_opened))
         sg.popup("Mod Exported!")
 
@@ -174,70 +180,77 @@ while True:
         window['currently_editing_god_image'].update(data=image_data)
 
 
-    if "ui_gods" in event:
-        if "reset" not in event:
-            god = event.replace("_ui_gods", "")
-            ui_type = event.replace(god, "")
-            current_god_being_editied = god 
-            current_ui_frame = ui_type
-            print("look here:"+current_ui_frame)
-            image_x = 46
-            image_y = 50
-            image_width = 160
-            image_height = 158
-            window.close()
-            window = edit_god_image_layout()
+    if event != None:
+        if "ui_gods" in event:
+            if "reset" not in event:
+                god = event.replace("_ui_gods", "")
+                ui_type = event.replace(god, "")
+                current_god_being_editied = god 
+                current_ui_frame = ui_type
+                #print("look here:"+current_ui_frame)
+                image_x = 46
+                image_y = 50
+                image_width = 160
+                image_height = 158
+                window.close()
+                window = edit_god_image_layout()
     
-
-    if "ui_gods" in event:
-         if "reset" in event:
-            god = event.replace("_ui_gods", "").replace("reset_", "")
-            delete_god_portrait(("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god+" 256x256.tga"))
-            window.Close()
-            window = edit_current_civilization_portaits()
+    if event != None:
+        if "ui_gods" in event:
+            if "reset" in event:
+                god = event.replace("_ui_gods", "").replace("reset_", "")
+                delete_god_portrait(("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god+" 256x256.tga"))
+                delete_god_portrait(("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god+" 128x128.tga"))
+                delete_god_portrait(("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god+" 64x64.tga"))
+                delete_god_portrait(("./Mods/"+current_mod_opened+"/textures/ui/ui god "+god+" 32x32.tga"))
+                window.Close()
+                window = edit_current_civilization_portaits()
     
-    if "major_gods" in event:
-         if "reset" in event:
-            god = event.replace("_major_gods", "").replace("reset_", "")
-            delete_god_portrait(("./Mods/"+current_mod_opened+"/textures/icons/god major "+god+" icons 64.tga"))
-            window.Close()
-            window = edit_current_civilization_portaits()
+    if event != None:
+        if "major_gods" in event:
+            if "reset" in event:
+                god = event.replace("_major_gods", "").replace("reset_", "")
+                delete_god_portrait(("./Mods/"+current_mod_opened+"/textures/icons/improvement "+god+" icon.tga"))
+                delete_god_portrait(("./Mods/"+current_mod_opened+"/textures/icons/god major "+god+" icons 64.tga"))
+                window.Close()
+                window = edit_current_civilization_portaits()
 
-    if "minor_gods" in event:
-         if "reset" in event:
-            god = event.replace("_minor_gods", "").replace("reset_", "")
-            delete_god_portrait(("./Mods/"+current_mod_opened+"/textures/god minor portrait "+current_civilization.lower()+" "+god+".tga"))
-            window.Close()
-            window = edit_current_civilization_portaits()
-
-
-
-    if "major_gods" in event:
-        if "reset" not in event:
-            god = event.replace("_major_gods", "")
-            ui_type = event.replace(god, "")
-            current_god_being_editied = god 
-            current_ui_frame = ui_type
-            image_x = 0
-            image_y = 0
-            image_width = 64
-            image_height = 64
-            window.close()
-            window = edit_god_image_layout()
+    if event != None:
+        if "minor_gods" in event:
+            if "reset" in event:
+                god = event.replace("_minor_gods", "").replace("reset_", "")
+                delete_god_portrait(("./Mods/"+current_mod_opened+"/textures/god minor portrait "+current_civilization.lower()+" "+god+".tga"))
+                window.Close()
+                window = edit_current_civilization_portaits()
 
 
-    if "minor_gods" in event:
-        if "reset" not in event:
-            god = event.replace("_minor_gods", "")
-            ui_type = event.replace(god, "")
-            current_god_being_editied = god 
-            current_ui_frame = ui_type
-            image_x = 0
-            image_y = 0
-            image_width = 180
-            image_height = 256
-            window.close()
-            window = edit_god_image_layout()
+    if event != None:
+        if "major_gods" in event:
+            if "reset" not in event:
+                god = event.replace("_major_gods", "")
+                ui_type = event.replace(god, "")
+                current_god_being_editied = god 
+                current_ui_frame = ui_type
+                image_x = 0
+                image_y = 0
+                image_width = 64
+                image_height = 64
+                window.close()
+                window = edit_god_image_layout()
+
+    if event != None:
+        if "minor_gods" in event:
+            if "reset" not in event:
+                god = event.replace("_minor_gods", "")
+                ui_type = event.replace(god, "")
+                current_god_being_editied = god 
+                current_ui_frame = ui_type
+                image_x = 0
+                image_y = 0
+                image_width = 180
+                image_height = 256
+                window.close()
+                window = edit_god_image_layout()
 
 
     if event in return_json_file_data("./data/CivilizationData.json")["Civilizations"].keys():
@@ -295,12 +308,5 @@ while True:
         window = refresh_open_faction_picker_layout()
 
 
-    #window['-OUTPUT-'].update('Hello ' + values['-INPUT-'] + "! Thanks for trying PySimpleGUI")
-    #[sg.Text("Major Gods", font=("Verdana",20), pad=(20, 20))],
-    #[ sg.Column([ [sg.Text(text, font=("Verdana",12))], [sg.Button("Edit", key=text+"_major_gods", font=("Verdana",12))] ], element_justification="C", pad=(5,5)) for text in civilization_data["major_gods"]],
-    #[sg.Text("Minor Gods", font=("Verdana",20), pad=(20, 20))],
-    #[ sg.Column([ [sg.Text(text, font=("Verdana",12))], [sg.Button("Edit", key=text+"_minor_gods", font=("Verdana",12))] ], element_justification="C", pad=(5,5)) for text in civilization_data["minor_gods"]],
-    #[sg.Button("Finished", pad=(20, 20), font=("Verdana", 15), key="Finished_with_civilization_layout")]
-
-
+# python -m PyInstaller app.py --noconsole
 window.close()
