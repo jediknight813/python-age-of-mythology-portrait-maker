@@ -38,7 +38,7 @@ def create_new_portrait_image(ui_type, god_name, user_image, image_x, image_y, i
     if ui_type == "_major_gods":
             card_size = int(image_width), int(image_height)
             img = Image.new('RGBA', (64, 64))
-            cb = Image.open("blank_icon.png")
+            cb = Image.open("./GodPortraitFrames/"+"blank_icon.png")
             ci = Image.open(user_image)
             ci = ci.resize(card_size)
             img.paste(ci, (int(image_x), int(image_y)))
@@ -73,7 +73,7 @@ def get_god_portrait_as_png(current_mod_opened, god_name, god_type, current_civi
         if os.path.exists(("./Mods/"+current_mod_opened+"/textures/icons/god major "+god_name+" icons 64.tga")) == True:
             return("./Mods/"+current_mod_opened+"/textures/icons/god major "+god_name+" icons 64.tga")
         else:
-            return "blank_icon.png"
+            return ("./GodPortraitFrames/"+"blank_icon.png")
     
     if (god_type == "_minor_gods"):
         if os.path.exists(("./Mods/"+current_mod_opened+"/textures/god minor portrait "+current_civilization.lower()+" "+god_name+".tga")) == True:

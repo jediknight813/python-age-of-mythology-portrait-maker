@@ -13,10 +13,6 @@ import base64
 img = Image.new('RGBA', (256, 256))
 god_ui_background = "alentean_god_ui_background.png"
 card_background = "card_background.png"
-
-god_ui_mask = "god_ui_image_mask.png"
-
-
 rootdir = './character_images/'
 save_folder = "./minor-god-portrait-tgas"
 
