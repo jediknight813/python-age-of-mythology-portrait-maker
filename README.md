@@ -26,7 +26,7 @@ After that click on one of the civilization buttons under Edit Civilization Port
 # Step Three
 This is where you view all the gods for the civilization you are editing, to change a god portrait click on the edit button and it will bring you to the portait editor.
 
-if you don't like a portait you made or want to remove one from the mod just press the reset button.
+if you don't like a portrait you made or want to remove one from the mod just press the reset button.
 
 
 ![civ_menu](https://user-images.githubusercontent.com/17935336/183202998-afd65960-fe18-48e0-b352-78bebcbedec0.png)
@@ -35,6 +35,8 @@ if you don't like a portait you made or want to remove one from the mod just pre
 This is where you can upload your image, change its width, height and x y positions, when you are done editing your new god portait press the finished button.
 
 After you are finished changing the portaits for that civilization press the finished button.
+
+
 ![image_edit](https://user-images.githubusercontent.com/17935336/183203075-2ba4be7a-f728-42fb-ad91-7cdc32aca605.png)
 
 
@@ -43,6 +45,8 @@ When you are done making your mod press the browse button and select the mods fo
 
 # Finished!
 After that your mod should be in the game, and if you want to you can upload it to the steam workshop.
+
+
 ![steam image 2](https://user-images.githubusercontent.com/17935336/185474101-acaa81fb-eb8c-4bdf-bde8-aeddd554ea59.PNG)
 
 ![steam image](https://user-images.githubusercontent.com/17935336/185474110-18f3af9c-4854-424c-a106-17acccc26322.PNG)
