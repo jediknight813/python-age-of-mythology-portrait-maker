@@ -5,6 +5,8 @@ This tool also makes it easy to upload your mod to the steam workshop, it export
 
 Supported image formats: PNG, JPEG (might add more later)
 
+This was tool was made using python, pysimplegui and PIL.
+
 
 # Setup
 Download this repo as a zip file or clone it to your computer, then open the folder in a code editor (i use visual studio code) and run app.py.
