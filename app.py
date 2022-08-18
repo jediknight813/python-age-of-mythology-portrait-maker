@@ -75,7 +75,7 @@ workshop_image_layout = [
 layout_two = [
 
             [sg.Text(current_mod_opened, font=("Verdana",30))],
-            [sg.Column([[sg.Text("Workshop Discrption")], [sg.Multiline(size=(50, 18), key='mod_description', default_text=get_read_publishinfo_file_description(current_mod_opened))], [sg.Button("Save", key="save_mod_description")]]), sg.Column([[sg.Text("Workshop Image")],
+            [sg.Column([[sg.Text("Workshop Description")], [sg.Multiline(size=(50, 18), key='mod_description', default_text=get_read_publishinfo_file_description(current_mod_opened))], [sg.Button("Save", key="save_mod_description")]]), sg.Column([[sg.Text("Workshop Image")],
             [sg.Image(size=(290, 290), key="workshop_image")],
             [sg.Button("change image")], ])],
             [sg.Text("Factions", font=("Times New Roman",20))]
@@ -150,7 +150,7 @@ def edit_god_image_layout():
 def refresh_open_faction_picker_layout():
     layout_two = [
         [sg.Text(current_mod_opened, font=("Verdana",30))],
-        [sg.Column([[sg.Text("Workshop Discrption")], [sg.Multiline(size=(50, 15.5), key='mod_description', default_text=get_read_publishinfo_file_description(current_mod_opened))], [sg.Button("Save", key="save_mod_description")]]), sg.Column([[sg.Text("Workshop Image")],
+        [sg.Column([[sg.Text("Workshop Description")], [sg.Multiline(size=(50, 15.5), key='mod_description', default_text=get_read_publishinfo_file_description(current_mod_opened))], [sg.Button("Save", key="save_mod_description")]]), sg.Column([[sg.Text("Workshop Image")],
         [sg.Image(data=convert_to_bytes("./Mods/"+current_mod_opened+"/workshop-preview-icon.jpg", (256, 256)), key="workshop_image")],
         [sg.FileBrowse(file_types=file_types, key="workshop_image_file"), sg.Button("update image")] ])],
         [sg.Text("Edit Civilization Portraits", font=("Times New Roman",20))],
