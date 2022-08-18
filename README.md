@@ -4,7 +4,7 @@
 ![filemenu](https://user-images.githubusercontent.com/17935336/183202654-e0f65c02-3b45-4212-a5e1-789c3b217386.PNG)
 
 
-![edit_menu](https://user-images.githubusercontent.com/17935336/183202769-9b53856c-1a16-4542-97c9-aafbf759faa8.png)
+![window](https://user-images.githubusercontent.com/17935336/185473355-a0365d28-f237-4287-913c-3da843ce4c58.PNG)
 
 
 ![civ_menu](https://user-images.githubusercontent.com/17935336/183202998-afd65960-fe18-48e0-b352-78bebcbedec0.png)
