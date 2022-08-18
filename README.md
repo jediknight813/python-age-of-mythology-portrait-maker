@@ -1,7 +1,7 @@
 # python-age-of-mythology-portrait-maker
 This is a portrait editing tool made for Age of Mythology: Extended Edition, this tool makes it easy for anyone to replace any god portait in the game.
 
-Supported image formats: Png, Jpeg
+Supported image formats: PNG, JPEG
 
 
 # Step One
