@@ -18,7 +18,7 @@ Create a new mod or use the demo mod to try it out.
 # Step Two
 Change the workshop image and readme if you want to, it's not needed for the mod to work but if you are going to upload your mod to the steam workshop i would recommend it.
 
-After that click on the civilization portaits you want to edit.
+After that click on one of the civilization buttons under Edit Civilization Portraits you want to edit.
 
 
 ![window](https://user-images.githubusercontent.com/17935336/185473355-a0365d28-f237-4287-913c-3da843ce4c58.PNG)
